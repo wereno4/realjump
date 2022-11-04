@@ -30,6 +30,9 @@ if not capture.isOpened():
     print("Camera is not detected.")
     exit()
 
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
+
 camwidth = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 camheight = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
@@ -39,18 +42,16 @@ def mousecallback(event, x, y, flags, param):
         pixelbgr = np.uint8([[color]])
         pixelhsv = cv2.cvtColor(pixelbgr, cv2.COLOR_BGR2HSV)
         pixelhsv = pixelhsv[0][0]
-        #print(color)
-        #print(pixelbgr)
         print(pixelhsv)
-    if pixelhsv[0] < 10:
-        lowerrange = np.array([pixelhsv[0]-10+180, threshold, threshold])
-        upperrange = np.array([pixelhsv[0]+10, 255, 255])
-    elif pixelhsv[0] > 170:
-        lowerrange = np.array([pixelhsv[0]-10, threshold, threshold])
-        upperrange = np.array([pixelhsv[0]+10-180, 255, 255])
-    else:
-        lowerrange = np.array([pixelhsv[0]-10, threshold, threshold])
-        upperrange = np.array([pixelhsv[0]+10, 255, 255])
+        if pixelhsv[0] < 10:
+            lowerrange = np.array([pixelhsv[0]-10+180, threshold, threshold])
+            upperrange = np.array([pixelhsv[0]+10, 255, 255])
+        elif pixelhsv[0] > 170:
+            lowerrange = np.array([pixelhsv[0]-10, threshold, threshold])
+            upperrange = np.array([pixelhsv[0]+10-180, 255, 255])
+        else:
+            lowerrange = np.array([pixelhsv[0]-10, threshold, threshold])
+            upperrange = np.array([pixelhsv[0]+10, 255, 255])
     
 
 cv2.namedWindow('Jump King But It\'s Real Jump')
